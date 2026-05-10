@@ -5,10 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student List Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .home-content {
+            background-image: url('/student-bg.jpeg');
+            position: relative;
+            background-size: cover;
+        }
+
+        .how-it-works { background: #f8f7ff; }
+
+        .list-section { background: #f1f0f9; }
+
+        .form-input:focus { border-color: #fb923c; }
+        .form-input.error { border-color: #ef4444; background: #fef2f2; }
+
+        /* ── Validation alert ── */
+        #validation-alert {
+            display: none;
+            background: #fef2f2;
+            border: 1.5px solid #fca5a5;
+            color: #dc2626;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: .875rem;
+            margin-bottom: 12px;
+        }
+        #validation-alert.show { display: flex; align-items: center; gap: 8px; }
+
+        #empty-state { color: #9ca3af; text-align: center; padding: 40px 0; }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.06);
+            border-top: 3px solid #fb923c;;
+        }
+
+
+        .badge-overdue { background: #fee2e2; color: #dc2626; }
+        .badge-today   { background: #fef3c7; color: #d97706; }
+        .badge-upcoming{ background: #dcfce7; color: #16a34a; }
+
+        .delete-btn {
+            background: transparent;
+            border: 1.5px solid #fca5a5;
+            color: #ef4444;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .18s;
+        }
+        .delete-btn:hover { background: #ef4444; color: #fff; }
+
+        #mobile-menu { display: none; }
+        #mobile-menu.open { display: flex; }
+    </style>
 </head>
 <body class="bg-gray-200">
     <nav class="flex justify-around items-center py-3 sticky backdrop-blur bg-white/60 shadow-md top-0 z-50">
-        <span class="logo text-2xl font-bold text-gray-700">ListTracker</span>
+        <span class="logo text-2xl font-extrabold text-gray-700">List<span style="color:#fb923c">Tracker</span></span>
         <ul class="hidden md:flex space-x-4">
             <li><a href="#home"         class="nav-link p-2 border-2 border-gray-600 rounded-full">Home</a></li>
             <li><a href="#how" class="nav-link p-2 border-2 border-gray-600 rounded-full">How it works</a></li>
@@ -29,11 +87,11 @@
     </div>
 
     <section class="flex flex-col">
-        <div id="home" class="home-content flex flex-col items-start ml-20 gap-6 py-24 text-start relative overflow-hidden min-h-screen justify-center">
-            <h1 class="text-5xl lg:text-6xl font-extrabold">
+        <div id="home" class="home-content flex flex-col items-start gap-6 py-24 text-start relative overflow-hidden min-h-screen justify-center">
+            <h1 class="text-5xl lg:text-6xl font-extrabold text-white ml-20">
                 Student List Tracker
             </h1>
-            <div class="relative z-10 flex flex-col items-start gap-6 px-2 w-[44%]">
+            <div class="relative z-10 flex flex-col items-start gap-6 px-2 w-[44%] ml-20">
                 <p class="text-lg sm:text-xl text-gray-300 leading-loose text-white">
                     Stay on top of every assignment and deadline. Add tasks, set due dates, and keep your academic life organised — all in one place. Your data is saved automatically.
                 </p>
@@ -45,9 +103,9 @@
             </div>
         </div>
 
-        <div id="how" class="how-it-works flex flex-col ml-20 justify-center items-start gap-6 py-24 w-[80%]">
-            <h1 class="text-3xl md:text-4xl font-extrabold mt-2">How it works</h1>
-            <div class="text-start w-[52%] space-y-4 mb-4 px-2">
+        <div id="how" class="how-it-works flex flex-col justify-center items-start gap-6 py-24">
+            <h1 class="text-3xl md:text-4xl font-extrabold mt-2 ml-20">How it works</h1>
+            <div class="text-start w-[52%] space-y-4 mb-4 px-2 w-[80%] mx-auto">
                 <p class="text-gray-500  text-lg mt-3">
                     ListTracker is designed to remove friction from your study routine. Three steps are all it takes.
                 </p>
@@ -56,7 +114,7 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4 w-[80%] mx-auto">
                 <div class="feature-card">
                     <div class="text-3xl mb-4">✏️</div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">1. Enter your task</h3>
@@ -75,10 +133,10 @@
             </div>
         </div>
 
-        <div id="list" class="list flex flex-col gap-4 w-[90%] mx-auto pb-24">
-            <h2 class="text-4xl font-extrabold ml-2 my-2 text-gray-800 mt-1">Task Manager</h2>
+        <div id="list" class="list flex flex-col gap-4 py-24">
+            <h2 class="text-4xl font-extrabold my-2 text-gray-800 ml-20">Task Manager</h2>
 
-            <div class="bg-white rounded-2xl shadow-md p-6 sm:p-8">
+            <div class="bg-white rounded-2xl shadow-md p-6 mt-4 sm:p-8 w-[80%] mx-auto">
                 <h2 class="text-xl font-extrabold text-gray-700 mb-5">Add a new task</h2>
                 <form id="task-form" action="" novalidate>
                     <div class="flex flex-col md:flex-row gap-8">
@@ -101,7 +159,7 @@
                 </form>
             </div>
 
-            <div class="list-display bg-white rounded-2xl shadow-md p-6 sm:p-8">
+            <div class="list-display bg-white rounded-2xl shadow-md p-6 sm:p-8 mx-auto w-[80%]">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-lg font-extrabold text-gray-700">Display Area</h2>
                     <span id="task-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-600">0 tasks</span>
@@ -118,13 +176,13 @@
         </div>
     </section>
 
-    <footer class="flex justify-around bg-gray-600 py-4 bg-gray-300 items-center">
-        <div class="flex items-center gap-8">
-            <span class="text-2xl font-bold">ListTracker</span>
-            <ul class="flex space-x-8">
-               <li>Home</li>
-               <li>How it works</li>
-               <li>List</li>
+    <footer class="flex flex-col items-center gap-4 bg-gray-600 py-4 bg-gray-300">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+            <span class="logo text-2xl font-extrabold text-white">List<span style="color:#fb923c">Tracker</span></span>
+            <ul class="flex space-x-8 text-gray-300">
+               <li><a href="#home"         class="hover:text-white transition-colors">Home</a></li>
+               <li><a href="#how-it-works" class="hover:text-white transition-colors">How it works</a>How it works</li>
+               <li><a href="#list"         class="hover:text-white transition-colors">List</a>List</li>
             </ul>
         </div>
         <p class="text-gray-300">&copy; 2024 Activities in Rwanda. All rights reserved.</p>
