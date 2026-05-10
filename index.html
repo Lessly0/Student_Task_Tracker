@@ -11,7 +11,7 @@
         <span class="logo text-2xl font-bold text-gray-700">ListTracker</span>
         <ul class="hidden md:flex space-x-4">
             <li><a href="#home"         class="nav-link p-2 border-2 border-gray-600 rounded-full">Home</a></li>
-            <li><a href="#how-it-works" class="nav-link p-2 border-2 border-gray-600 rounded-full">How it works</a></li>
+            <li><a href="#how" class="nav-link p-2 border-2 border-gray-600 rounded-full">How it works</a></li>
             <li><a href="#list"         class="nav-link p-2 border-2 border-gray-600 rounded-full">List</a></li>
         </ul>
 
@@ -24,7 +24,7 @@
 
     <div id="mobile-menu" class="md:hidden flex-col items-center gap-3 py-4 bg-white/90 backdrop-blur shadow-md sticky top-[57px] z-40">
         <a href="#home"         class="nav-link" onclick="closeMobileMenu()">Home</a>
-        <a href="#how-it-works" class="nav-link" onclick="closeMobileMenu()">How it works</a>
+        <a href="#how" class="nav-link" onclick="closeMobileMenu()">How it works</a>
         <a href="#list"         class="nav-link" onclick="closeMobileMenu()">List</a>
     </div>
 
@@ -45,12 +45,36 @@
             </div>
         </div>
 
-        <div class="How it works flex flex-col justify-center mx-auto gap-6 py-24 w-[80%]">
-            <h1 class="font-bold text-3xl">How it works</h1>
-            <p></p>
-            <span class="text-lg">Discover more</span>
+        <div id="how" class="how-it-works flex flex-col ml-20 justify-center items-start gap-6 py-24 w-[80%]">
+            <h1 class="text-3xl md:text-4xl font-extrabold mt-2">How it works</h1>
+            <div class="text-start w-[52%] space-y-4 mb-4 px-2">
+                <p class="text-gray-500  text-lg mt-3">
+                    ListTracker is designed to remove friction from your study routine. Three steps are all it takes.
+                </p>
+                <a href="#list" class="inline-block font-semibold text-sm px-6 py-2.5 rounded-full border-2 transition-all hover:text-white text-lg border-2 border-gray-700">
+                    Discover more
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                <div class="feature-card">
+                    <div class="text-3xl mb-4">✏️</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">1. Enter your task</h3>
+                    <p class="text-gray-500 text-lg leading-relaxed">Type the name of your assignment, project, or any task you need to track.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="text-3xl mb-4">📅</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">2. Pick a due date</h3>
+                    <p class="text-gray-500 text-lg leading-relaxed">Select the deadline for your task so you always know what needs attention first.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="text-3xl mb-4">💾</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">3. It's saved automatically</h3>
+                    <p class="text-gray-500 text-lg leading-relaxed">Your tasks are stored in your browser. Refresh or come back later — they'll still be there.</p>
+                </div>
+            </div>
         </div>
-        
+
         <div class="List flex flex-col gap-4 w-[80%] mx-auto pb-24">
             <form action="" class="flex flex-col w-[65%] mx-auto gap-4">
                 <label for="Task Name" class="font-bold">Task Name</label>
