@@ -65,12 +65,12 @@
     </style>
 </head>
 <body class="bg-gray-200">
-    <nav class="flex justify-around items-center py-3 sticky backdrop-blur bg-white/60 shadow-md top-0 z-50">
+    <nav class="flex justify-around items-center py-4 sticky backdrop-blur bg-white/60 shadow-md top-0 z-50">
         <span class="logo text-2xl font-extrabold text-gray-700">List<span style="color:#fb923c">Tracker</span></span>
         <ul class="hidden md:flex space-x-4">
-            <li><a href="#home"         class="nav-link p-2 border-2 border-gray-600 rounded-full">Home</a></li>
-            <li><a href="#how" class="nav-link p-2 border-2 border-gray-600 rounded-full">How it works</a></li>
-            <li><a href="#list"         class="nav-link p-2 border-2 border-gray-600 rounded-full">List</a></li>
+            <li><a href="#home"         class="nav-link p-2 border-2 border-gray-600 rounded-full text-sm">Home</a></li>
+            <li><a href="#how" class="nav-link p-2 border-2 border-gray-600 rounded-full text-sm">How it works</a></li>
+            <li><a href="#list"         class="nav-link p-2 border-2 border-gray-600 rounded-full text-sm">List</a></li>
         </ul>
 
         <button id="hamburger-btn" class="md:hidden flex flex-col gap-2 p-2 rounded-md hover:bg-gray-100" aria-label="Toggle menu">
@@ -143,15 +143,15 @@
                         <div class="flex flex-col gap-2 flex-1">
                             <label for="task-name" class="text-lg font-semibold text-gray-600">Task Name</label>
                             <input id="task-name" type="text" placeholder="e.g. Math assignment chapter 4"
-                                   class="form-input">
+                                   class="form-input border-2 border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="due-date" class="text-lg font-semibold text-gray-600">Due Date</label>
-                            <input id="due-date" type="date" class="form-input">
+                            <input id="due-date" type="date" class="form-input border-2 border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all">
                         </div>
 
-                        <button type="submit items-end"
-                            class="w-full h-12 sm:w-auto px-7 py-2 rounded-xl text-white font-bold text-sm shadow-md transition-all hover:scale-105 active:scale-95"
+                        <button id="submitBtn" type="submit"
+                            class="w-full h-12 sm:w-auto px-7 py-2 rounded-xl text-white font-bold text-sm shadow-md items-end transition-all hover:scale-105 active:scale-95"
                             style="background:linear-gradient(135deg,#f97316,#ea580c);">
                             Add Task
                         </button>
@@ -172,6 +172,10 @@
 
                 <div id="tasks-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 </div>
+
+                <div id="error-msg" class="hidden">
+
+                </div>
             </div>
         </div>
     </section>
@@ -187,5 +191,95 @@
         </div>
         <p class="text-gray-300">&copy; 2024 Activities in Rwanda. All rights reserved.</p>
     </footer> 
+
+    <script>
+    // ── GRAB ELEMENTS FROM THE HTML ──
+    const taskname  = document.getElementById('task-name');
+    const duedate   = document.getElementById('due-date');
+    const submitBtn = document.getElementById('submitBtn');
+    const empty     = document.getElementById('empty-state');
+    const tasksgrid = document.getElementById('tasks-grid');
+    const count     = document.getElementById('task-count');
+
+    // ── LOAD SAVED TASKS (or start with empty array) ──
+    let task = JSON.parse(localStorage.getItem('studentTask')) || [];
+
+    // ── SAVE tasks array to localStorage ──
+    function saveTask() {
+        localStorage.setItem('studentTask', JSON.stringify(task));
+    }
+
+    // ── UPDATE the task counter badge ──
+    function updateCounter() {
+        count.textContent = `${task.length} ${task.length === 1 ? 'task' : 'tasks'}`;
+    }
+
+    // ── SHOW or HIDE the empty state message ──
+    function toggleEmptyState() {
+        if (task.length === 0) {
+            empty.style.display = 'block';
+        } else {
+            empty.style.display = 'none';
+        }
+    }
+
+    // ── DRAW a single task card on the screen ──
+    function renderTask(taskObj) {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-50 rounded-xl p-4 border border-gray-200';
+        card.dataset.id = taskObj.id;
+        card.innerHTML = `
+            <p class="font-semibold text-gray-800">${taskObj.name}</p>
+            <p class="text-sm text-gray-500 mt-1">Due: ${taskObj.date}</p>
+            <button class="delete-btn mt-3" onclick="deleteTask(${taskObj.id})">Delete</button>
+        `;
+        tasksgrid.appendChild(card);
+    }
+
+    // ── DELETE a task by its ID ──
+    function deleteTask(id) {
+        task = task.filter(t => t.id !== id);
+        saveTask();
+        document.querySelector(`[data-id="${id}"]`).remove();
+        updateCounter();
+        toggleEmptyState();
+    }
+
+    // ── HANDLE form submission ──
+    document.getElementById('task-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = taskname.value.trim();
+        const date = duedate.value;
+
+        // Validation
+        if (!name || !date) {
+            alert('Please fill in both fields!');
+            return;
+        }
+
+        // Create new task object
+        const newTask = { id: Date.now(), name, date };
+
+        // Add to array, save, draw, update UI
+        task.push(newTask);
+        saveTask();
+        renderTask(newTask);
+        updateCounter();
+        toggleEmptyState();
+
+        // Clear inputs
+        taskname.value = '';
+        duedate.value  = '';
+    });
+
+    // ── ON PAGE LOAD: restore saved tasks ──
+    window.onload = function() {
+        task.forEach(t => renderTask(t));
+        updateCounter();
+        toggleEmptyState();
+    };
+      
+    </script>
 </body>
 </html>
